@@ -28,6 +28,8 @@ workflows:
     max_build_duration: 60
     environment:
       flutter: stable
+      groups:
+        - google_credentials
     scripts:
       - name: Bağımlılıkları yükle
         script: |
