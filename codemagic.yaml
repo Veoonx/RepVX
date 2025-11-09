@@ -7,8 +7,6 @@ workflows:
       xcode: latest
       vars:
         BUILD_DIR: build
-      groups:
-        - default
     scripts:
       - name: Flutter ortamını hazırla
         script: |
