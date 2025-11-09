@@ -23,9 +23,3 @@ workflows:
     artifacts:
       - build/app/outputs/flutter-apk/app-debug.apk
       - build/ios/iphonesimulator/Runner.app
-    app_preview:
-      title: "RepVX App Preview"
-      description: "RepVX iOS & Android önizleme build"
-      include_artifacts:
-        - build/app/outputs/flutter-apk/app-debug.apk
-        - build/ios/iphonesimulator/Runner.app
