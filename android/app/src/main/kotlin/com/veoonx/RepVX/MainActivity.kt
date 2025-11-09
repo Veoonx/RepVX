@@ -1,4 +1,4 @@
-package com.example.deneme_app
+package com.veoonx.repvx
 
 import io.flutter.embedding.android.FlutterActivity
 
