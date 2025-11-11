@@ -26,22 +26,19 @@ android {
         jvmTarget = "1.8"
     }
 
-    signingConfigs {
-        create("release") {
-            storeFile = file(System.getenv("MYAPP_KEYSTORE"))
-            storePassword = System.getenv("MYAPP_STORE_PASSWORD")
-            keyAlias = System.getenv("MYAPP_KEY_ALIAS")
-            keyPassword = System.getenv("MYAPP_KEY_PASSWORD")
-        }
-    }
+       signingConfigs {
+           create("release") {
+        // Codemagic yüklediği keystore'u otomatik bağlar
+            }
+           }
 
-    buildTypes {
+      buildTypes {
         release {
-            signingConfig = signingConfigs.getByName("release")
-            isMinifyEnabled = false
-            isShrinkResources = false
-        }
+        signingConfig = signingConfigs.getByName("release")
+        isMinifyEnabled = false
+        isShrinkResources = false
     }
+   }
 }
 
 flutter {
