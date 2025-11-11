@@ -26,19 +26,13 @@ android {
         jvmTarget = "1.8"
     }
 
-       signingConfigs {
-           create("release") {
-        // Codemagic yüklediği keystore'u otomatik bağlar
-            }
-           }
-
-      buildTypes {
+    buildTypes {
         release {
-        signingConfig = signingConfigs.getByName("release")
-        isMinifyEnabled = false
-        isShrinkResources = false
+            // **Google Play imzalayacak → biz imzalamıyoruz**
+            isMinifyEnabled = false
+            isShrinkResources = false
+        }
     }
-   }
 }
 
 flutter {
