@@ -26,19 +26,12 @@ android {
         jvmTarget = "1.8"
     }
 
-    // ✅ BURASI ASIL KISIM
-    signingConfigs {
-        create("release") {
-            storeFile = file(System.getenv("MYAPP_KEYSTORE"))
-            storePassword = System.getenv("MYAPP_STORE_PASSWORD")
-            keyAlias = System.getenv("MYAPP_KEY_ALIAS")
-            keyPassword = System.getenv("MYAPP_KEY_PASSWORD")
-        }
-    }
+    // ❌ burada signingConfigs yok artık → Google Play imzalayacak
 
     buildTypes {
         release {
-            signingConfig = signingConfigs.getByName("release")  // ✅ Upload Key ile imzala
+            // Keystore yok, Google Play App Signing aktif
+            signingConfig = null
             isMinifyEnabled = false
             isShrinkResources = false
         }
