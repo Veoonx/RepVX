@@ -28,10 +28,10 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("repvx.keystore")
-            storePassword = "123456"
-            keyAlias = "repvx"
-            keyPassword = "123456"
+            storeFile = file(System.getenv("MYAPP_KEYSTORE"))
+            storePassword = System.getenv("MYAPP_STORE_PASSWORD")
+            keyAlias = System.getenv("MYAPP_KEY_ALIAS")
+            keyPassword = System.getenv("MYAPP_KEY_PASSWORD")
         }
     }
 
