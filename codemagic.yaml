@@ -1,5 +1,4 @@
 workflows:
-
   repvx_app_preview:
     name: RepVX Dual Platform Preview
     max_build_duration: 60
@@ -23,13 +22,13 @@ workflows:
       - build/app/outputs/flutter-apk/app-debug.apk
       - build/ios/iphonesimulator/Runner.app
 
- repvx_play_release:
+  repvx_play_release:
     name: RepVX Play Store Release
     max_build_duration: 60
     environment:
       flutter: stable
       groups:
-        - google_credentials
+        - google_credentials   # ✅ SENDE BU GRUP VAR
     scripts:
       - name: Bağımlılıkları yükle
         script: |
