@@ -50,20 +50,17 @@ workflows:
       groups:
         - appstore_credentials
       vars:
-        TEAM_ID: XHWQQ94L6F  # Sizin Team ID'niz
-        
-      # 👇 KRİTİK: BU ÜÇ DEĞİŞKENİN GİRİNTİSİ, 'groups' ve 'vars' ile aynı olmalıdır
-      XCODE_CODE_SIGN_IDENTITY: "Apple Distribution: Melih Bugra Arayici (XHWQQ94L6F)"
-      XCODE_PROVISIONING_PROFILE_SPECIFIER: "repvx-dev-cert1"
-      XCODE_DEVELOPMENT_TEAM: XHWQQ94L6F
-      # 👆 BU ÜÇ DEĞİŞKENİN GİRİNTİSİ, 'groups' ve 'vars' ile aynı olmalıdır
+        TEAM_ID: XHWQQ94L6F # Team ID'yi tutuyoruz, ama sadece referans olarak.
+      
+      # XCODE_CODE_SIGN_IDENTITY, XCODE_DEVELOPMENT_TEAM, XCODE_PROVISIONING_PROFILE_SPECIFIER KALDIRILDI
 
     scripts:
       - name: Flutter deps
         script: flutter pub get
 
       - name: Build iOS for archive
-        script: flutter build ios --release # flutter build ios komutunu geri getiriyoruz
+        # API anahtarları tanımlı olduğu için CodeMagic'in otomatik imzalaması beklenir.
+        script: flutter build ios --release 
 
     artifacts:
       - build/ios/ipa/*.ipa
