@@ -1,3 +1,6 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -26,12 +29,25 @@ android {
         jvmTarget = "1.8"
     }
 
-    // ❌ burada signingConfigs yok artık → Google Play imzalayacak
+    signingConfigs {
+        create("release") {
+            val props = Properties()
+            val keystoreFile = rootProject.file("key.properties")
+
+            if (keystoreFile.exists()) {
+                props.load(FileInputStream(keystoreFile))
+            }
+
+            storeFile = file(props.getProperty("storeFile"))
+            storePassword = props.getProperty("storePassword")
+            keyAlias = props.getProperty("keyAlias")
+            keyPassword = props.getProperty("keyPassword")
+        }
+    }
 
     buildTypes {
         release {
-            // Keystore yok, Google Play App Signing aktif
-            signingConfig = null
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = false
             isShrinkResources = false
         }

@@ -28,7 +28,7 @@ workflows:
     environment:
       flutter: stable
       groups:
-        - google_credentials   # ✅ SENDE BU GRUP VAR
+        - google_credentials
     scripts:
       - name: Bağımlılıkları yükle
         script: |
@@ -40,6 +40,27 @@ workflows:
       - build/app/outputs/bundle/release/app-release.aab
     publishing:
       google_play:
-        credentials: $GCLOUD_SERVICE_ACCOUNT
+        credentials: $GOOGLE_PLAY_SERVICE_ACCOUNT_CREDENTIALS
         track: internal
         submit_as_draft: true
+
+  repvx_ios_release:
+    name: RepVX App Store Release
+    max_build_duration: 60
+    environment:
+      flutter: stable
+      xcode: latest
+      groups:
+        - appstore_credentials
+    scripts:
+      - name: Bağımlılıkları yükle
+        script: |
+          flutter pub get
+      - name: IPA oluşturma
+        script: |
+          flutter build ipa --release --no-codesign
+    publishing:
+      app_store_connect:
+        api_key: $APP_STORE_CONNECT_API_KEY
+        submit_to_testflight: true
+        submit_to_app_store: false
