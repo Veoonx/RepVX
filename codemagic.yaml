@@ -20,8 +20,6 @@ workflows:
       - build/app/outputs/flutter-apk/app-debug.apk
       - build/ios/iphonesimulator/Runner.app
 
----
-
   repvx_play_release:
     name: RepVX Play Store Release
     max_build_duration: 60
@@ -42,8 +40,6 @@ workflows:
         track: internal
         submit_as_draft: true
 
----
-
   repvx_ios_release:
     name: RepVX iOS Release
     max_build_duration: 60
@@ -53,9 +49,7 @@ workflows:
       cocoapods: default
       groups:
         - appstore_credentials   # p8 + keyid + issuer burada saklı
-      # ÇÖZÜM SATIRI: Yüklenen sertifika ve profillerin kullanılmasını sağlar.
-      auto_code_signing: true 
-
+      auto_code_signing: true   # << ÖNEMLİ DÜZELTME BURADA
     scripts:
       - name: Flutter deps
         script: flutter pub get
