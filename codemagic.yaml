@@ -51,12 +51,12 @@ workflows:
         - appstore_credentials
       vars:
         TEAM_ID: XHWQQ94L6F  # Sizin Team ID'niz
-      
-      # 👇 KRİTİK: YÜKLEDİĞİNİZ KİMLİKLERİN TAM ADINI KULLANIYORUZ 👇
-      # Bu değişkenler, Xcode'a hangi sertifika ve profili kullanacağını kesin olarak söyler.
-      XCODE_CODE_SIGN_IDENTITY: "Apple Distribution: Melih Bugra Arayici (XHWQQ94L6F)" # Yüklü Sertifikanın Adı
-      XCODE_PROVISIONING_PROFILE_SPECIFIER: "repvx-dev-cert1" # Yüklü Profilin Adı (Daha önceki görsele göre)
-      XCODE_DEVELOPMENT_TEAM: XHWQQ94L6F # Team ID'yi Environment'a ekliyoruz
+        
+      # 👇 KRİTİK: BU ÜÇ DEĞİŞKENİN GİRİNTİSİ, 'groups' ve 'vars' ile aynı olmalıdır
+      XCODE_CODE_SIGN_IDENTITY: "Apple Distribution: Melih Bugra Arayici (XHWQQ94L6F)"
+      XCODE_PROVISIONING_PROFILE_SPECIFIER: "repvx-dev-cert1"
+      XCODE_DEVELOPMENT_TEAM: XHWQQ94L6F
+      # 👆 BU ÜÇ DEĞİŞKENİN GİRİNTİSİ, 'groups' ve 'vars' ile aynı olmalıdır
 
     scripts:
       - name: Flutter deps
