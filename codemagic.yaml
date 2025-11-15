@@ -51,7 +51,7 @@ workflows:
       flutter: stable
       xcode: latest
       groups:
-        - appstore_credentials   # p8 + key id + issuer id burada
+        - appstore_credentials
 
     scripts:
       - name: Bağımlılıkları yükle
@@ -64,7 +64,7 @@ workflows:
 
     publishing:
       app_store_connect:
-        api_key: $APPSTORE_API_KEY
+        api_key: $APPSTORE_PRIVATE_KEY
         key_id: $APPSTORE_KEY_ID
         issuer_id: $APPSTORE_ISSUER_ID
         submit_to_testflight: true
