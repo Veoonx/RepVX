@@ -40,7 +40,7 @@ workflows:
         track: internal
         submit_as_draft: true
 
-repvx_ios_release:
+  repvx_ios_release:
     name: RepVX iOS Release
     max_build_duration: 60
     environment:
