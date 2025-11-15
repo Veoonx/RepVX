@@ -40,7 +40,8 @@ workflows:
         track: internal
         submit_as_draft: true
 
-   repvx_ios_release:
+  # BURADAN İTİBAREN DÜZELTİLDİ: repvx_ios_release doğru hizada
+  repvx_ios_release:
     name: RepVX iOS Release
     max_build_duration: 60
     environment:
@@ -50,29 +51,29 @@ workflows:
       groups:
         - appstore_credentials
       vars: # Ekip Kimliğiniz
-        TEAM_ID: XHWQQ94L6F  # <-- SİZİN TEAM ID'NİZ
+        TEAM_ID: XHWQQ94L6F  # Sizin Team ID'niz
+        FLUTTER_BUILD_NAME: 1.0.0
+        FLUTTER_BUILD_NUMBER: 3
 
     scripts:
       - name: Flutter deps
         script: flutter pub get
 
-      # 👇 XCODE KLASİK DERLEME DEĞİŞKENLERİNİ KULLANMA 👇
       - name: Build iOS for archive (Team ID Entegre)
         script: |
-          # Bu komut, Team ID'yi ve CODE_SIGN_STYLE=Automatic'i doğrudan flutter build komutuna geçirir.
+          # flutter build ipa komutu Team ID'yi doğrudan alır ve .ipa oluşturur.
           flutter build ipa --release \
             --build-name=$FLUTTER_BUILD_NAME \
             --build-number=$FLUTTER_BUILD_NUMBER \
-            --export-options-plist=$CM_BUILD_DIR/export_options.plist \
             -t lib/main.dart \
-            OTHER_CODE_SIGN_FLAGS="--keychain /Library/Keychains/CM.keychain" \
-            DEVELOPMENT_TEAM="$TEAM_ID"
+            DEVELOPMENT_TEAM="$TEAM_ID" \
+            # CodeMagic'in Anahtarlığını (KeyChain) Kullanmasını Sağlar
+            OTHER_CODE_SIGN_FLAGS="--keychain /Library/Keychains/CM.keychain"
             
     artifacts:
-      # build ipa kullanıldığı için artifact yolunu ipa dosyasına göre güncelledik
-      - $CM_BUILD_DIR/Runner.ipa
+      # flutter build ipa komutu çıktısı
+      - build/ios/ipa/*.ipa
 
-    # ... (Publishing kısmı aynı kalacak, sadece artifacts yolu değişti)
     publishing:
       app_store_connect:
         api_key: $APP_STORE_CONNECT_PRIVATE_KEY
