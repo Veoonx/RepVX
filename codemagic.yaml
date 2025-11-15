@@ -40,7 +40,8 @@ workflows:
         track: internal
         submit_as_draft: true
 
-    repvx_ios_release:
+  # BURADAN İTİBAREN DÜZELTİLDİ: repvx_ios_release artık doğru hizada
+  repvx_ios_release:
     name: RepVX iOS Release
     max_build_duration: 60
     environment:
@@ -48,24 +49,21 @@ workflows:
       xcode: latest
       cocoapods: default
       groups:
-        - appstore_credentials   # P8 anahtarınız burada
-      vars: # Ekip Kimliğinizi ve Bundle ID'yi tanımladık
+        - appstore_credentials
+      vars: # Ekip Kimliğiniz ve Bundle ID'niz
         XCODE_SCHEME: Runner
         BUNDLE_ID: com.veoonx.repvx
-        TEAM_ID: XHWQQ94L6F  # <-- SİZİN TEAM ID'NİZ
-
+        TEAM_ID: XHWQQ94L6F
     scripts:
       - name: Flutter deps
         script: flutter pub get
 
       - name: Code Signing Ayarlarını Uygula
         script: |
-          # 1. Xcode'a Hangi Takımı Kullanacağını Söyler
+          # Xcode'a Takım Kimliğini Söyler
           xcode-project set-development-team $TEAM_ID
           
-          # 2. Yüklü Dağıtım Profilini ve Sertifikasını Kullanmasını Emreder.
-          # CM_PROVISIONING_PROFILE_REP_APPSTORE ve CM_CERTIFICATE_REP_PROD 
-          # değişkenleri CodeMagic tarafından otomatik olarak tanımlanır.
+          # Yüklü Sertifika ve Profili Kullanmasını Emreder.
           xcode-project use-profiles --target Runner --profile "$CM_PROVISIONING_PROFILE_REP_APPSTORE" --code-sign-identity "$CM_CERTIFICATE_REP_PROD"
           
       - name: Build iOS for archive
