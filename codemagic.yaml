@@ -40,7 +40,7 @@ workflows:
         track: internal
         submit_as_draft: true
 
-  repvx_ios_release:
+repvx_ios_release:
     name: RepVX iOS Release
     max_build_duration: 60
     environment:
@@ -49,7 +49,8 @@ workflows:
       cocoapods: default
       groups:
         - appstore_credentials   # p8 + keyid + issuer burada saklı
-      auto_code_signing: true   # << ÖNEMLİ DÜZELTME BURADA
+      # auto_code_signing: true SATIRI BURADAN KALDIRILDI! 
+
     scripts:
       - name: Flutter deps
         script: flutter pub get
@@ -63,8 +64,8 @@ workflows:
 
     publishing:
       app_store_connect:
-        api_key: $APP_STORE_CONNECT_PRIVATE_KEY   # ✔ p8 içeriği
-        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER # ✔ key id
-        issuer_id: $APP_STORE_CONNECT_ISSUER_ID   # ✔ issuer id
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
         submit_to_testflight: true
         submit_to_app_store: false
