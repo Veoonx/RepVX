@@ -51,14 +51,19 @@ workflows:
         - appstore_credentials
       vars:
         TEAM_ID: XHWQQ94L6F  # Sizin Team ID'niz
-        
+      
+      # 👇 KRİTİK: YÜKLEDİĞİNİZ KİMLİKLERİN TAM ADINI KULLANIYORUZ 👇
+      # Bu değişkenler, Xcode'a hangi sertifika ve profili kullanacağını kesin olarak söyler.
+      XCODE_CODE_SIGN_IDENTITY: "Apple Distribution: Melih Bugra Arayici (XHWQQ94L6F)" # Yüklü Sertifikanın Adı
+      XCODE_PROVISIONING_PROFILE_SPECIFIER: "repvx-dev-cert1" # Yüklü Profilin Adı (Daha önceki görsele göre)
+      XCODE_DEVELOPMENT_TEAM: XHWQQ94L6F # Team ID'yi Environment'a ekliyoruz
+
     scripts:
       - name: Flutter deps
         script: flutter pub get
 
-      # TEK SATIR KOMUT: Tüm imzalama parametrelerini shell hatası olmadan iletiyoruz
-      - name: Build iOS for archive (Final Solution)
-        script: flutter build ipa --release -t lib/main.dart DEVELOPMENT_TEAM="$TEAM_ID" OTHER_CODE_SIGN_FLAGS="--keychain /Library/Keychains/CM.keychain"
+      - name: Build iOS for archive
+        script: flutter build ios --release # flutter build ios komutunu geri getiriyoruz
 
     artifacts:
       - build/ios/ipa/*.ipa
