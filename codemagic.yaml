@@ -40,8 +40,8 @@ workflows:
         track: internal
         submit_as_draft: true
 
-  # BURADAN İTİBAREN DÜZELTİLDİ: repvx_ios_release doğru hizada
-    repvx_ios_release:
+  # repvx_ios_release iş akışı doğru hizada
+  repvx_ios_release:
     name: RepVX iOS Release
     max_build_duration: 60
     environment:
@@ -50,17 +50,16 @@ workflows:
       cocoapods: default
       groups:
         - appstore_credentials
-      vars: # Vars bloğunu sadece kolaylık için tutuyoruz
+      vars:
         TEAM_ID: XHWQQ94L6F  # Sizin Team ID'niz
-
-     scripts:
+        
+    scripts:
       - name: Flutter deps
         script: flutter pub get
 
-      # 👇 TÜM İMZALAMA BİLGİLERİNİ DOĞRUDAN XCODE'A GEÇİR 👇
       - name: Build iOS for archive (Final Attempt)
         script: |
-          # flutter build ipa komutu, CodeMagic'e yüklenen sertifikaları
+          # flutter build ipa komutu, CodeMagic'e yüklenen sertifikaları 
           # ve manuel olarak girilen Team ID'yi kullanarak ipa oluşturur.
           flutter build ipa --release \
             -t lib/main.dart \
@@ -71,11 +70,10 @@ workflows:
             # flutter build ipa komutunun, Team ID'yi doğru almasını sağlar
             DEVELOPMENT_TEAM="$TEAM_ID"
 
-     artifacts:
-      # flutter build ipa komutu çıktısı
+    artifacts:
       - build/ios/ipa/*.ipa
 
-     publishing:
+    publishing:
       app_store_connect:
         api_key: $APP_STORE_CONNECT_PRIVATE_KEY
         key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
