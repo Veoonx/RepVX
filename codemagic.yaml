@@ -41,7 +41,7 @@ workflows:
         submit_as_draft: true
 
   # BURADAN İTİBAREN DÜZELTİLDİ: repvx_ios_release doğru hizada
-  repvx_ios_release:
+    repvx_ios_release:
     name: RepVX iOS Release
     max_build_duration: 60
     environment:
@@ -50,31 +50,32 @@ workflows:
       cocoapods: default
       groups:
         - appstore_credentials
-      vars: # Ekip Kimliğiniz
+      vars: # Vars bloğunu sadece kolaylık için tutuyoruz
         TEAM_ID: XHWQQ94L6F  # Sizin Team ID'niz
-        FLUTTER_BUILD_NAME: 1.0.0
-        FLUTTER_BUILD_NUMBER: 3
 
-    scripts:
+     scripts:
       - name: Flutter deps
         script: flutter pub get
 
-      - name: Build iOS for archive (Team ID Entegre)
+      # 👇 TÜM İMZALAMA BİLGİLERİNİ DOĞRUDAN XCODE'A GEÇİR 👇
+      - name: Build iOS for archive (Final Attempt)
         script: |
-          # flutter build ipa komutu Team ID'yi doğrudan alır ve .ipa oluşturur.
+          # flutter build ipa komutu, CodeMagic'e yüklenen sertifikaları
+          # ve manuel olarak girilen Team ID'yi kullanarak ipa oluşturur.
           flutter build ipa --release \
-            --build-name=$FLUTTER_BUILD_NAME \
-            --build-number=$FLUTTER_BUILD_NUMBER \
             -t lib/main.dart \
-            DEVELOPMENT_TEAM="$TEAM_ID" \
-            # CodeMagic'in Anahtarlığını (KeyChain) Kullanmasını Sağlar
-            OTHER_CODE_SIGN_FLAGS="--keychain /Library/Keychains/CM.keychain"
-            
-    artifacts:
+            # Code Signing Bilgilerini Değişken Olarak Geçirme
+            -DTEAM_ID="$TEAM_ID" \
+            -DPROVISIONING_PROFILE_SPECIFIER="$CM_PROVISIONING_PROFILE_REP_APPSTORE" \
+            -DCODE_SIGN_IDENTITY="$CM_CERTIFICATE_REP_PROD" \
+            # flutter build ipa komutunun, Team ID'yi doğru almasını sağlar
+            DEVELOPMENT_TEAM="$TEAM_ID"
+
+     artifacts:
       # flutter build ipa komutu çıktısı
       - build/ios/ipa/*.ipa
 
-    publishing:
+     publishing:
       app_store_connect:
         api_key: $APP_STORE_CONNECT_PRIVATE_KEY
         key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
