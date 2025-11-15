@@ -40,8 +40,7 @@ workflows:
         track: internal
         submit_as_draft: true
 
-  # BURADAN İTİBAREN DÜZELTİLDİ: repvx_ios_release artık doğru hizada
-  repvx_ios_release:
+   repvx_ios_release:
     name: RepVX iOS Release
     max_build_duration: 60
     environment:
@@ -50,29 +49,30 @@ workflows:
       cocoapods: default
       groups:
         - appstore_credentials
-      vars: # Ekip Kimliğiniz ve Bundle ID'niz
-        XCODE_SCHEME: Runner
-        BUNDLE_ID: com.veoonx.repvx
-        TEAM_ID: XHWQQ94L6F
+      vars: # Ekip Kimliğiniz
+        TEAM_ID: XHWQQ94L6F  # <-- SİZİN TEAM ID'NİZ
+
     scripts:
       - name: Flutter deps
         script: flutter pub get
 
-      - name: Code Signing Ayarlarını Uygula
+      # 👇 XCODE KLASİK DERLEME DEĞİŞKENLERİNİ KULLANMA 👇
+      - name: Build iOS for archive (Team ID Entegre)
         script: |
-          # Xcode'a Takım Kimliğini Söyler
-          xcode-project set-development-team $TEAM_ID
-          
-          # Yüklü Sertifika ve Profili Kullanmasını Emreder.
-          xcode-project use-profiles --target Runner --profile "$CM_PROVISIONING_PROFILE_REP_APPSTORE" --code-sign-identity "$CM_CERTIFICATE_REP_PROD"
-          
-      - name: Build iOS for archive
-        script: flutter build ios --release
-
+          # Bu komut, Team ID'yi ve CODE_SIGN_STYLE=Automatic'i doğrudan flutter build komutuna geçirir.
+          flutter build ipa --release \
+            --build-name=$FLUTTER_BUILD_NAME \
+            --build-number=$FLUTTER_BUILD_NUMBER \
+            --export-options-plist=$CM_BUILD_DIR/export_options.plist \
+            -t lib/main.dart \
+            OTHER_CODE_SIGN_FLAGS="--keychain /Library/Keychains/CM.keychain" \
+            DEVELOPMENT_TEAM="$TEAM_ID"
+            
     artifacts:
-      - build/ios/ipa/*.ipa
-      - build/ios/archive/*.xcarchive
+      # build ipa kullanıldığı için artifact yolunu ipa dosyasına göre güncelledik
+      - $CM_BUILD_DIR/Runner.ipa
 
+    # ... (Publishing kısmı aynı kalacak, sadece artifacts yolu değişti)
     publishing:
       app_store_connect:
         api_key: $APP_STORE_CONNECT_PRIVATE_KEY
