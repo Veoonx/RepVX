@@ -44,27 +44,28 @@ workflows:
   repvx_ios_release:
     name: RepVX iOS Release
     max_build_duration: 60
-
     environment:
       flutter: stable
       xcode: latest
+      cocoapods: default
       groups:
-        - appstore_credentials
+        - appstore_credentials   # p8 + keyid + issuer burada saklı
 
     scripts:
       - name: Flutter deps
         script: flutter pub get
 
-      - name: Build IPA
-        script: flutter build ipa --release --export-options-plist=ios/exportOptions.plist
+      - name: Build iOS for archive
+        script: flutter build ios --release
 
     artifacts:
       - build/ios/ipa/*.ipa
+      - build/ios/archive/*.xcarchive
 
     publishing:
       app_store_connect:
-        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
-        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
-        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY   # ✔ p8 içeriği
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER # ✔ key id
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID   # ✔ issuer id
         submit_to_testflight: true
         submit_to_app_store: false
