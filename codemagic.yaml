@@ -13,11 +13,9 @@ workflows:
           flutter clean
           flutter pub get
       - name: Android .apk oluştur (debug)
-        script: |
-          flutter build apk --debug
+        script: flutter build apk --debug
       - name: iOS .app oluştur (simülatör için)
-        script: |
-          flutter build ios --debug --simulator
+        script: flutter build ios --debug --simulator
     artifacts:
       - build/app/outputs/flutter-apk/app-debug.apk
       - build/ios/iphonesimulator/Runner.app
@@ -45,23 +43,18 @@ workflows:
   repvx_ios_release:
     name: RepVX App Store Release
     max_build_duration: 60
-
     environment:
       flutter: stable
       xcode: latest
       groups:
         - appstore_credentials
-
     scripts:
       - name: Bağımlılıkları yükle
         script: flutter pub get
-
       - name: IPA oluşturma
         script: flutter build ipa --release --no-codesign
-
     publishing:
       app_store_connect:
-        apple_id: "melih.b1923@gmail.com"
         private_key: $APP_STORE_CONNECT_PRIVATE_KEY
         key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
         issuer_id: $APP_STORE_CONNECT_ISSUER_ID
