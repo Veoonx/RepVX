@@ -41,22 +41,29 @@ workflows:
         submit_as_draft: true
 
   repvx_ios_release:
-    name: RepVX App Store Release
+    name: RepVX iOS Release
     max_build_duration: 60
+
     environment:
       flutter: stable
       xcode: latest
       groups:
         - appstore_credentials
+
     scripts:
-      - name: Bağımlılıkları yükle
+      - name: Flutter dependencies
         script: flutter pub get
-      - name: IPA oluşturma
+
+      - name: Build iOS
         script: flutter build ipa --release --no-codesign
+
+    artifacts:
+      - build/ios/ipa/*.ipa
+
     publishing:
       app_store_connect:
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
         issuer_id: $APP_STORE_CONNECT_ISSUER_ID
         key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
-        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
         submit_to_testflight: true
         submit_to_app_store: false
