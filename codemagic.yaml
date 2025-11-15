@@ -31,11 +31,9 @@ workflows:
         - google_credentials
     scripts:
       - name: Bağımlılıkları yükle
-        script: |
-          flutter pub get
+        script: flutter pub get
       - name: Release .aab oluştur
-        script: |
-          flutter build appbundle --release
+        script: flutter build appbundle --release
     artifacts:
       - build/app/outputs/bundle/release/app-release.aab
     publishing:
@@ -47,6 +45,7 @@ workflows:
   repvx_ios_release:
     name: RepVX App Store Release
     max_build_duration: 60
+
     environment:
       flutter: stable
       xcode: latest
@@ -55,17 +54,16 @@ workflows:
 
     scripts:
       - name: Bağımlılıkları yükle
-        script: |
-          flutter pub get
+        script: flutter pub get
 
       - name: IPA oluşturma
-        script: |
-          flutter build ipa --release --no-codesign
+        script: flutter build ipa --release --no-codesign
 
     publishing:
-    app_store_connect:
-    api_key: $APP_STORE_CONNECT_PRIVATE_KEY
-    key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
-    issuer_id: $APP_STORE_CONNECT_ISSUER_ID
-    submit_to_testflight: true
-    submit_to_app_store: false
+      app_store_connect:
+        apple_id: "melih.b1923@gmail.com"
+        private_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+        submit_to_testflight: true
+        submit_to_app_store: false
